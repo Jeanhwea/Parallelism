@@ -4,20 +4,19 @@ public class RW {
 	private int data = 0;
 	private int nread = 0;
 
-	
 	private synchronized void startRead() {
-		nread ++;
+		nread++;
 	}
-	
+
 	private synchronized void endRead() {
-		nread --;
+		nread--;
 		if (nread == 0)
 			notify();
 	}
 
 	public void read() {
 		startRead();
-		System.out.println("read+"+data);
+		System.out.println("read+" + data);
 		endRead();
 	}
 
@@ -26,11 +25,11 @@ public class RW {
 			try {
 				wait();
 			} catch (InterruptedException e) {
-				return ;
+				return;
 			}
 		}
 		data++;
-		System.out.println("wirte+"+data);
+		System.out.println("wirte+" + data);
 		notify();
 	}
 

@@ -36,7 +36,9 @@ public class BarberShop {
 				System.out.println("顾客 " + customer.id + ": 开始理发");
 			}
 
-		} catch (InterruptedException e) { }
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void giveHaircut(Barber barber) {

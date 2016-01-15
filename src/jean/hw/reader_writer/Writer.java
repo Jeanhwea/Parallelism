@@ -14,6 +14,7 @@ public class Writer extends Thread {
 				rw.write();
 			}
 		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }

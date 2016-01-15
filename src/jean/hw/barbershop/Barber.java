@@ -2,7 +2,7 @@ package jean.hw.barbershop;
 
 public class Barber extends Thread {
 	BarberShop bshop;
-	
+
 	public Barber(BarberShop bs) {
 		this.bshop = bs;
 	}
@@ -13,8 +13,9 @@ public class Barber extends Thread {
 				bshop.giveHaircut(this);
 				Thread.sleep(1000);
 			}
-		} catch (InterruptedException e) {}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
-	
 
 }

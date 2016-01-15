@@ -6,7 +6,10 @@ public class User extends Thread {
 	public static final int BEGIN = 1; // 打印数字的开始
 	public static final int END = 75; // 打印数字的结束
 
-	public User(int id) { this.id = id; printer = new Printer(BEGIN); }
+	public User(int id) {
+		this.id = id;
+		printer = new Printer(BEGIN);
+	}
 
 	public void run() {
 		try {
@@ -23,7 +26,9 @@ public class User extends Thread {
 					Thread.sleep(200); // 模拟其他工作耗时
 				}
 			}
-		} catch (InterruptedException e) { }
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// 创建3个用户,并开启相应的线程

@@ -16,6 +16,7 @@ public class Customer extends Thread {
 				bshop.getHaircut(this);
 			}
 		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 

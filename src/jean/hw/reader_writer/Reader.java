@@ -14,6 +14,7 @@ public class Reader extends Thread {
 				rw.read();
 			}
 		} catch (InterruptedException e) {
+			e.printStackTrace();
 		}
 	}
 }
