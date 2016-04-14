@@ -1,40 +1,40 @@
 package jean.hw.printer;
 
 public class User extends Thread {
-	int id; // ÓÃ»§µÄID
-	public static Printer printer; // ¹²ÏíµÄ´òÓ¡»ú×ÊÔ´
-	public static final int BEGIN = 1; // ´òÓ¡Êı×ÖµÄ¿ªÊ¼
-	public static final int END = 75; // ´òÓ¡Êı×ÖµÄ½áÊø
+    int id; // ç”¨æˆ·çš„ID
+    public static Printer printer; // å…±äº«çš„æ‰“å°æœºèµ„æº
+    public static final int BEGIN = 1; // æ‰“å°æ•°å­—çš„å¼€å§‹
+    public static final int END = 75; // æ‰“å°æ•°å­—çš„ç»“æŸ
 
-	public User(int id) {
-		this.id = id;
-		printer = new Printer(BEGIN);
-	}
+    public User(int id) {
+        this.id = id;
+        printer = new Printer(BEGIN);
+    }
 
-	public void run() {
-		try {
-			Thread.sleep(1000); // µÈ´ıËùÓÃÏß³Ì´´½¨Íê±Ï
-			synchronized (printer) {
-				while (printer.num <= END) {
-					// Èç¹ûÊÇÊôÓÚ×Ô¼ºµÄÊı, Ôò´òÓ¡³öÀ´£¬·ñÔòµÈ´ı
-					if ((printer.num / 5 % 3 + 1) == id) {
-						printer.print_number(this); // Íê³É´òÓ¡¹¤×÷
-						printer.notifyAll();
-					} else {
-						printer.wait();
-					}
-					Thread.sleep(200); // Ä£ÄâÆäËû¹¤×÷ºÄÊ±
-				}
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+    public void run() {
+        try {
+            Thread.sleep(1000); // ç­‰å¾…æ‰€ç”¨çº¿ç¨‹åˆ›å»ºå®Œæ¯•
+            synchronized (printer) {
+                while (printer.num <= END) {
+                    // å¦‚æœæ˜¯å±äºè‡ªå·±çš„æ•°, åˆ™æ‰“å°å‡ºæ¥ï¼Œå¦åˆ™ç­‰å¾…
+                    if ((printer.num / 5 % 3 + 1) == id) {
+                        printer.print_number(this); // å®Œæˆæ‰“å°å·¥ä½œ
+                        printer.notifyAll();
+                    } else {
+                        printer.wait();
+                    }
+                    Thread.sleep(200); // æ¨¡æ‹Ÿå…¶ä»–å·¥ä½œè€—æ—¶
+                }
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	// ´´½¨3¸öÓÃ»§,²¢¿ªÆôÏàÓ¦µÄÏß³Ì
-	public static void main(String[] args) {
-		new User(1).start();
-		new User(2).start();
-		new User(3).start();
-	}
+    // åˆ›å»º3ä¸ªç”¨æˆ·,å¹¶å¼€å¯ç›¸åº”çš„çº¿ç¨‹
+    public static void main(String[] args) {
+        new User(1).start();
+        new User(2).start();
+        new User(3).start();
+    }
 }

@@ -1,22 +1,22 @@
 package jean.hw.producer_consumer;
 
 public class Consumer extends Thread {
-	private PC pc;
+    private PC pc;
 
-	public Consumer(PC pc) {
-		super();
-		this.pc = pc;
-	}
+    public Consumer(PC pc) {
+        super();
+        this.pc = pc;
+    }
 
-	public void run() {
-		while (true) {
-			try {
-				pc.consume(); // µ÷ÓÃ¼à¿ØÆ÷ÖĞÏû·Ñ·½·¨
-				Thread.sleep(1000); // Ä£ÄâÏû·ÑÕß×öÆäËü¹¤×÷µÄÊ±¼ä
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+    public void run() {
+        while (true) {
+            try {
+                pc.consume(); // è°ƒç”¨ç›‘æ§å™¨ä¸­æ¶ˆè´¹æ–¹æ³•
+                Thread.sleep(1000); // æ¨¡æ‹Ÿæ¶ˆè´¹è€…åšå…¶å®ƒå·¥ä½œçš„æ—¶é—´
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

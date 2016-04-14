@@ -1,63 +1,63 @@
 package jean.hw.barbershop;
 
 public class BarberShop {
-	public static final int EMPTY_CHAIR = 0;
-	public static final int FULL_CHAIR = 2;
-	private static int waiting = EMPTY_CHAIR; // ×øÏ¯ÉÏµÈ´ıµÄÈËÊı,³õÊ¼»¯Îª¿Õ
-	private static Object mutexWaiting = new Object(); // ×øÏ¯ÉÏµÈ´ı¶ÓÁĞ·ÃÎÊµÄ»¥³âËø
-	public static Object semaBarberReady = new Object(); // Àí·¢Ê¦ÊÇ·ñ×¼±¸¾ÍĞ÷µÄĞÅºÅÁ¿
+    public static final int EMPTY_CHAIR = 0;
+    public static final int FULL_CHAIR = 2;
+    private static int waiting = EMPTY_CHAIR; // åå¸­ä¸Šç­‰å¾…çš„äººæ•°,åˆå§‹åŒ–ä¸ºç©º
+    private static Object mutexWaiting = new Object(); // åå¸­ä¸Šç­‰å¾…é˜Ÿåˆ—è®¿é—®çš„äº’æ–¥é”
+    public static Object semaBarberReady = new Object(); // ç†å‘å¸ˆæ˜¯å¦å‡†å¤‡å°±ç»ªçš„ä¿¡å·é‡
 
-	public static void main(String[] args) {
-		BarberShop shop = new BarberShop();
-		Barber barber = new Barber(shop);
-		barber.start();
-		for (int i = 0; i < 5; i++) {
-			Customer customer = new Customer(shop, i);
-			customer.start();
-		}
-	}
+    public static void main(String[] args) {
+        BarberShop shop = new BarberShop();
+        Barber barber = new Barber(shop);
+        barber.start();
+        for (int i = 0; i < 5; i++) {
+            Customer customer = new Customer(shop, i);
+            customer.start();
+        }
+    }
 
-	public void getHaircut(Customer customer) {
-		try {
-			synchronized (mutexWaiting) {
-				if (waiting < FULL_CHAIR) {
-					// Èç¹ûÓĞµÈ´ıµÄ×ùÎ»£¬ÔòÔÚ×øÏ¯ÉÏµÈ´ıÀí·¢
-					waiting++;
-				} else {
-					// Èç¹ûÃ»ÓĞµÈ´ıµÄ×ùÎ»£¬ÔòÀë¿ªÀí·¢µê
-					System.out.println("¹Ë¿Í " + customer.id + ": Àë¿ªÀí·¢µê");
-					return;
-				}
-			}
+    public void getHaircut(Customer customer) {
+        try {
+            synchronized (mutexWaiting) {
+                if (waiting < FULL_CHAIR) {
+                    // å¦‚æœæœ‰ç­‰å¾…çš„åº§ä½ï¼Œåˆ™åœ¨åå¸­ä¸Šç­‰å¾…ç†å‘
+                    waiting++;
+                } else {
+                    // å¦‚æœæ²¡æœ‰ç­‰å¾…çš„åº§ä½ï¼Œåˆ™ç¦»å¼€ç†å‘åº—
+                    System.out.println("é¡¾å®¢ " + customer.id + ": ç¦»å¼€ç†å‘åº—");
+                    return;
+                }
+            }
 
-			// µÈ´ıÀí·¢Ê¦¾ÍĞ÷µÄĞÅºÅÁ¿
-			synchronized (semaBarberReady) {
-				semaBarberReady.wait();
-				System.out.println("¹Ë¿Í " + customer.id + ": ¿ªÊ¼Àí·¢");
-			}
+            // ç­‰å¾…ç†å‘å¸ˆå°±ç»ªçš„ä¿¡å·é‡
+            synchronized (semaBarberReady) {
+                semaBarberReady.wait();
+                System.out.println("é¡¾å®¢ " + customer.id + ": å¼€å§‹ç†å‘");
+            }
 
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public void giveHaircut(Barber barber) {
-		synchronized (mutexWaiting) {
-			if (waiting > EMPTY_CHAIR) {
-				// Èç¹ûÓĞµÈ´ıÀí·¢µÄÈË£¬ÔòÈ¡³öÒ»¸öÈË¿ªÊ¼½øĞĞÀí·¢
-				waiting--;
-			} else {
-				// Èç¹ûÃ»ÓĞµÈ´ıÀí·¢µÄÈË£¬ÔòÀí·¢Ê¦¿ªÊ¼Ë¯¾õ
-				System.out.println("Àí·¢Ê¦: ¿ªÊ¼Ë¯¾õ");
-				return;
-			}
-		}
+    public void giveHaircut(Barber barber) {
+        synchronized (mutexWaiting) {
+            if (waiting > EMPTY_CHAIR) {
+                // å¦‚æœæœ‰ç­‰å¾…ç†å‘çš„äººï¼Œåˆ™å–å‡ºä¸€ä¸ªäººå¼€å§‹è¿›è¡Œç†å‘
+                waiting--;
+            } else {
+                // å¦‚æœæ²¡æœ‰ç­‰å¾…ç†å‘çš„äººï¼Œåˆ™ç†å‘å¸ˆå¼€å§‹ç¡è§‰
+                System.out.println("ç†å‘å¸ˆ: å¼€å§‹ç¡è§‰");
+                return;
+            }
+        }
 
-		// Àí·¢Íê±Ï£¬ÊÍ·ÅÀí·¢Ê¦¾ÍĞ÷µÄĞÅºÅÁ¿
-		synchronized (semaBarberReady) {
-			System.out.println("Àí·¢Ê¦: ¼ôÁËÒ»¸öÈËµÄÍ··¢");
-			semaBarberReady.notify();
-		}
+        // ç†å‘å®Œæ¯•ï¼Œé‡Šæ”¾ç†å‘å¸ˆå°±ç»ªçš„ä¿¡å·é‡
+        synchronized (semaBarberReady) {
+            System.out.println("ç†å‘å¸ˆ: å‰ªäº†ä¸€ä¸ªäººçš„å¤´å‘");
+            semaBarberReady.notify();
+        }
 
-	}
+    }
 }

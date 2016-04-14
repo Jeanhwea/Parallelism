@@ -1,62 +1,63 @@
+
 package jean.hw.producer_consumer;
 
 import java.util.*;
 
 public class PC {
-	Vector<Integer> pool; // Ä£Äâ²úÆ·³Ø
+    Vector<Integer> pool; // æ¨¡æ‹Ÿäº§å“æ± 
 
-	int product = 0; // Ã¿´ÎÉú²ú²úÆ·µÄ¼ÆÊı
-	public static int EMPTY = 0; // ²úÆ·³ØÎª¿ÕµÄ³£Á¿
-	public static int FULL = 25; // ²úÆ·³ØÎªÂúµÄ³£Á¿
+    int product = 0; // æ¯æ¬¡ç”Ÿäº§äº§å“çš„è®¡æ•°
+    public static int EMPTY = 0; // äº§å“æ± ä¸ºç©ºçš„å¸¸é‡
+    public static int FULL = 25; // äº§å“æ± ä¸ºæ»¡çš„å¸¸é‡
 
-	public PC() {
-		pool = new Vector<Integer>();
-	}
+    public PC() {
+        pool = new Vector<Integer>();
+    }
 
-	public static void main(String[] args) {
-		// ´´½¨Éú²úÕßºÍÏû·ÑÕß£¬²¢ÇÒÆô¶¯ÏàÓ¦µÄÏß³Ì
-		PC pc = new PC();
-		Consumer consumer = new Consumer(pc);
-		Producer producer = new Producer(pc);
-		consumer.start();
-		producer.start();
-	}
+    public static void main(String[] args) {
+        // åˆ›å»ºç”Ÿäº§è€…å’Œæ¶ˆè´¹è€…ï¼Œå¹¶ä¸”å¯åŠ¨ç›¸åº”çš„çº¿ç¨‹
+        PC pc = new PC();
+        Consumer consumer = new Consumer(pc);
+        Producer producer = new Producer(pc);
+        consumer.start();
+        producer.start();
+    }
 
-	public synchronized void consume() {
-		try {
-			// Èë¿ÚĞ­Òé
-			if (pool.size() == EMPTY)
-				this.wait();
+    public synchronized void consume() {
+        try {
+            // å…¥å£åè®®
+            if (pool.size() == EMPTY)
+                this.wait();
 
-			// Ä£ÄâÏû·ÑÕßµÄĞĞÎª
-			System.out.println("Consume: " + pool.firstElement().toString());
-			pool.removeElementAt(0);
+            // æ¨¡æ‹Ÿæ¶ˆè´¹è€…çš„è¡Œä¸º
+            System.out.println("Consume: " + pool.firstElement().toString());
+            pool.removeElementAt(0);
 
-			// ³ö¿ÚĞ­Òé
-			if (pool.size() == FULL - 1)
-				this.notify();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+            // å‡ºå£åè®®
+            if (pool.size() == FULL - 1)
+                this.notify();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
-	public synchronized void produce() {
-		try {
-			// Èë¿ÚĞ­Òé
-			if (pool.size() == FULL)
-				this.wait();
+    public synchronized void produce() {
+        try {
+            // å…¥å£åè®®
+            if (pool.size() == FULL)
+                this.wait();
 
-			// Ä£ÄâÉú²úÕßµÄĞĞÎª
-			++product;
-			pool.addElement(new Integer(product));
-			System.out.println("Produce: " + product);
+            // æ¨¡æ‹Ÿç”Ÿäº§è€…çš„è¡Œä¸º
+            ++product;
+            pool.addElement(new Integer(product));
+            System.out.println("Produce: " + product);
 
-			// ³ö¿ÚĞ­Òé
-			if (pool.size() == EMPTY + 1)
-				this.notify();
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
+            // å‡ºå£åè®®
+            if (pool.size() == EMPTY + 1)
+                this.notify();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
