@@ -3,12 +3,14 @@ package jean.hw.producer_consumer;
 public class Consumer extends Thread {
     private PC pc;
 
-    public Consumer(PC pc) {
+    public Consumer(PC pc)
+    {
         super();
         this.pc = pc;
     }
 
-    public void run() {
+    public void run()
+    {
         while (true) {
             try {
                 pc.consume(); // 调用监控器中消费方法

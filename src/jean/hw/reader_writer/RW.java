@@ -4,23 +4,27 @@ public class RW {
     private int data = 0;
     private int nread = 0;
 
-    private synchronized void startRead() {
+    private synchronized void startRead()
+    {
         nread++;
     }
 
-    private synchronized void endRead() {
+    private synchronized void endRead()
+    {
         nread--;
         if (nread == 0)
             notify();
     }
 
-    public void read() {
+    public void read()
+    {
         startRead();
         System.out.println("read+" + data);
         endRead();
     }
 
-    public synchronized void write() {
+    public synchronized void write()
+    {
         while (nread > 0) {
             try {
                 wait();
@@ -33,7 +37,8 @@ public class RW {
         notify();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         RW rw = new RW();
         new Reader(rw).start();
         new Writer(rw).start();

@@ -6,12 +6,14 @@ public class User extends Thread {
     public static final int BEGIN = 1; // 打印数字的开始
     public static final int END = 75; // 打印数字的结束
 
-    public User(int id) {
+    public User(int id)
+    {
         this.id = id;
         printer = new Printer(BEGIN);
     }
 
-    public void run() {
+    public void run()
+    {
         try {
             Thread.sleep(1000); // 等待所用线程创建完毕
             synchronized (printer) {
@@ -32,7 +34,8 @@ public class User extends Thread {
     }
 
     // 创建3个用户,并开启相应的线程
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         new User(1).start();
         new User(2).start();
         new User(3).start();

@@ -10,11 +10,13 @@ public class PC {
     public static int EMPTY = 0; // 产品池为空的常量
     public static int FULL = 25; // 产品池为满的常量
 
-    public PC() {
+    public PC()
+    {
         pool = new Vector<Integer>();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         // 创建生产者和消费者，并且启动相应的线程
         PC pc = new PC();
         Consumer consumer = new Consumer(pc);
@@ -23,7 +25,8 @@ public class PC {
         producer.start();
     }
 
-    public synchronized void consume() {
+    public synchronized void consume()
+    {
         try {
             // 入口协议
             if (pool.size() == EMPTY)
@@ -41,7 +44,8 @@ public class PC {
         }
     }
 
-    public synchronized void produce() {
+    public synchronized void produce()
+    {
         try {
             // 入口协议
             if (pool.size() == FULL)

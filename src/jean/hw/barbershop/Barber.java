@@ -3,11 +3,13 @@ package jean.hw.barbershop;
 public class Barber extends Thread {
     BarberShop bshop;
 
-    public Barber(BarberShop bs) {
+    public Barber(BarberShop bs)
+    {
         this.bshop = bs;
     }
 
-    public void run() {
+    public void run()
+    {
         try {
             while (true) {
                 bshop.giveHaircut(this);

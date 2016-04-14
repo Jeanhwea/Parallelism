@@ -7,7 +7,8 @@ public class BarberShop {
     private static Object mutexWaiting = new Object(); // 坐席上等待队列访问的互斥锁
     public static Object semaBarberReady = new Object(); // 理发师是否准备就绪的信号量
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         BarberShop shop = new BarberShop();
         Barber barber = new Barber(shop);
         barber.start();
@@ -17,7 +18,8 @@ public class BarberShop {
         }
     }
 
-    public void getHaircut(Customer customer) {
+    public void getHaircut(Customer customer)
+    {
         try {
             synchronized (mutexWaiting) {
                 if (waiting < FULL_CHAIR) {
@@ -41,7 +43,8 @@ public class BarberShop {
         }
     }
 
-    public void giveHaircut(Barber barber) {
+    public void giveHaircut(Barber barber)
+    {
         synchronized (mutexWaiting) {
             if (waiting > EMPTY_CHAIR) {
                 // 如果有等待理发的人，则取出一个人开始进行理发
